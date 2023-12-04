@@ -2,6 +2,7 @@
 
 import { onMounted } from "vue";
 import useNovel from "../composables/novelsAPIs";
+import InfoModel from "../components/Model/InfoModel.vue";
 
 const {novelData, error, getAllNovels, getNovelById } = useNovel();
 
@@ -17,7 +18,7 @@ function openModel() {
     <h1 class="flex items-center justify-center text-2xl">Novel Listing</h1>
     <div class="flex">
       <div class="" v-if="error">Oops!!! Error Encountered : {{ error.message }}</div> 
-    <div class="flex flex-wrap px-4 py-8">
+    <div v-if="novelData" class="flex flex-wrap px-4 py-8">
       <div class="flex py-4" v-for="(novel, i) in novelData" :key="novel.id">
         <div class="flex card w-96 bg-primary text-primary-content mx-8">
           <div class="card-body">
@@ -26,8 +27,8 @@ function openModel() {
             </div>
             <div class="px-4">
               <h3 class="card-title pb-6">{{ novel.novelName }}</h3>
-              <h3>Novel Author : {{ novel.novelAuthor }}</h3>
-              <h3><span class="text-xl">Genra</span> : 
+              <h3>Author : {{ novel.novelAuthor }}</h3>
+              <h3><span class="text-xl">Genre</span> : 
                 <p class="inline-block  px-1" v-for="(genra, i) in novel.genre" :key="i">
                   <span class="bg-[#502f89] rounded-lg px-1"> {{ genra }} </span> 
                 </p>
@@ -36,10 +37,10 @@ function openModel() {
             </div>
             <div class="card-actions justify-end">
                <button class="btn" @click="getNovelById(novel._id)">
-                <a href="/src/views/ViewNovel.vue">
-                  <button class="btn">
+                <a href="/src/components/Model/InfoModel.vue">
+                  <!-- <button class="btn" @click=""> -->
                     Info
-                  </button>
+                  <!-- </button> -->
                 </a>
               </button>
               <!-- <button class="btn">Edit</button> -->
@@ -47,6 +48,9 @@ function openModel() {
           </div>
         </div>
       </div>
+    </div>
+    <div v-else class="flex flex-wrap px-4 py-8">
+      <h1>NO DATA Available</h1>
     </div>
       <Content />
     </div>

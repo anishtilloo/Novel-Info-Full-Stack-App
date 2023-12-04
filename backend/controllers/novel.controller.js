@@ -56,8 +56,14 @@ export const getNovelBasedOnId = async (req, res) => {
 export const getAllNovel = async (req, res) => {
     try {
         const result = await NovelModel.find();
-        console.log("Recieved Novels Successfully");
-        res.status(200).json({ success: true, message: "Recieved Novels Successfully", result });
+        if (result) {
+            console.log("Recieved Novels Successfully");
+            res.status(200).json({ success: true, message: "Recieved Novels Successfully", result });
+        } else {
+            console.log("There are no novels in the DB");
+            res.status(200).json({ success: true, message: "DB Empty", result });
+        }
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });

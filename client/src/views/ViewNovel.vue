@@ -7,7 +7,7 @@ const { novelByIdData, error, getNovelById } = useNovel();
 </script>
 
 <template>
-    <div>
-        <h1>{{ novelByIdData.novelName }}</h1>
+    <div class="bg-blue-400">
+        <h1>{{ novelByIdData }}</h1>
     </div>
 </template>
