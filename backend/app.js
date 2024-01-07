@@ -1,10 +1,11 @@
 // import packages or dependencies
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 // import local files
 import connectDB from "./db/connection.js";
-import NovelRoute from "./routes/novel.route.js"
+import NovelRoute from "./routes/novel.route.js";
 
 const app = express();
 
@@ -13,6 +14,8 @@ const DATABASE_URL = process.env.DATABASE_URL || "mongodb://127.0.0.1:27017";
 
 // middlewares
 app.use(cors());
+app.use(express.static(path.resolve('./uploads')));
+
 
 // db connection code
 connectDB(DATABASE_URL);

@@ -1,15 +1,23 @@
-import NovelModel from "../model/novel.js";
+import NovelModel from "../model/Novel.js";
 
+// POST Requests
 export const AddNovel = async (req, res) => {
 
-    const { novelName, novelAuthor, genre, rating } = req.body;
+    const { novelName, novelAuthor, genre, rating, description, publishedBy, noOfPages } = req.body;
 
     const insertNovel = new NovelModel({
             novelName: novelName,
             novelAuthor: novelAuthor,
             genre: genre,
-            rating: rating
+            rating: rating,
+            description: description,
+            publishedBy: publishedBy,
+            noOfPages: noOfPages,
         });
+        if(req.file) {
+            insertNovel.backgroundImg = req.file.path
+        }
+        console.log(insertNovel);
       try {
         const result = await insertNovel.save();
         console.log("Added Novel Successfully");
@@ -20,6 +28,7 @@ export const AddNovel = async (req, res) => {
     }
 }
 
+// GET Requests
 export const getNovelBasedOnName = async (req, res) => {
     const { novelName } = req.body;
 
@@ -52,16 +61,15 @@ export const getNovelBasedOnId = async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
-
-export const getAllNovel = async (req, res) => {
+export const getAllNovel = async (req, res) => {  
     try {
-        const result = await NovelModel.find();
+        let {result, nextPage, previousPage} = res.pagenation
         if (result) {
             console.log("Recieved Novels Successfully");
-            res.status(200).json({ success: true, message: "Recieved Novels Successfully", result });
+            res.status(200).json({ success: true, message: "Recieved Novels Successfully", nextPage, previousPage, result });
         } else {
             console.log("There are no novels in the DB");
-            res.status(200).json({ success: true, message: "DB Empty", result });
+            res.status(200).json({ success: true, message: "DB is Empty", result });
         }
         
     } catch (error) {

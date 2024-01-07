@@ -1,57 +1,50 @@
 <script setup>
-
 import { onMounted } from "vue";
 import useNovel from "../composables/novelsAPIs";
-import InfoModel from "../components/Model/InfoModel.vue";
-
-const {novelData, error, getAllNovels, getNovelById } = useNovel();
+import NovelViewCard from "../components/Cards/NovelViewCard.vue";
+const { novelData, error, getAllNovels } = useNovel();
 
 onMounted(getAllNovels);
- 
-function openModel() {
-  $refs.childModalRef.openModal()  
-}
-
 </script>
 
 <template>
-    <h1 class="flex items-center justify-center text-2xl">Novel Listing</h1>
-    <div class="flex">
-      <div class="" v-if="error">Oops!!! Error Encountered : {{ error.message }}</div> 
+  <h1 class="flex items-center justify-center text-2xl">Novel Listing</h1>
+  <div class="flex items-center justify-center">
+    <div class="" v-if="error">
+      Oops!!! Error Encountered : {{ error.message }}
+    </div>
     <div v-if="novelData" class="flex flex-wrap px-4 py-8">
-      <div class="flex py-4" v-for="(novel, i) in novelData" :key="novel.id">
-        <div class="flex card w-96 bg-primary text-primary-content mx-8">
-          <div class="card-body">
-            <div class="px-4">
-              <h3>{{ ++i }}</h3>
-            </div>
-            <div class="px-4">
-              <h3 class="card-title pb-6">{{ novel.novelName }}</h3>
-              <h3>Author : {{ novel.novelAuthor }}</h3>
-              <h3><span class="text-xl">Genre</span> : 
-                <p class="inline-block  px-1" v-for="(genra, i) in novel.genre" :key="i">
-                  <span class="bg-[#502f89] rounded-lg px-1"> {{ genra }} </span> 
-                </p>
-              </h3>
-              <h3>Rating : {{ novel.rating }}</h3>
-            </div>
-            <div class="card-actions justify-end">
-               <button class="btn" @click="getNovelById(novel._id)">
-                <a href="/src/components/Model/InfoModel.vue">
-                  <!-- <button class="btn" @click=""> -->
-                    Info
-                  <!-- </button> -->
-                </a>
-              </button>
-              <!-- <button class="btn">Edit</button> -->
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="flex py-4" v-for="(novel) in novelData" :key="novel.id">
+        <NovelViewCard 
+        :key="i"
+        :novelName="novel.novelName"
+        :novelAuthor="novel.novelAuthor"
+        :rating="novel.rating"
+        :genres="novel.genres"
+        :id="novel._id"
+        :backgroundImg="novel.backgroundImg"
+       />
+      </div> 
     </div>
     <div v-else class="flex flex-wrap px-4 py-8">
       <h1>NO DATA Available</h1>
     </div>
-      <Content />
+    <div>
+      <select name="pageLimit" id="limit">
+        <option value="">10</option>
+        <option value="">50</option>
+        <option value="">100</option>
+      </select>
+      <p>Showing 1 to 10 entries of 100</p>
+      <div>
+        <button>
+        prev
+      </button>
+      
+      <button>
+        next
+      </button>
+      </div>
     </div>
+  </div>
 </template>

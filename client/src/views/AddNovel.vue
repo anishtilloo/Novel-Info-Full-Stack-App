@@ -7,7 +7,7 @@
         <RedToast />
     </div>
     <div>
-        <form class="flex items-center justify-center h-screen form-control w-full max-w" @submit.prevent="handleSubmit">
+        <form enctype="multipart/form-data" class="flex items-center justify-center h-screen form-control w-full max-w" @submit.prevent="handleSubmit">
             <div>
                 <label class="label label-text" for="novelName">Novel Name</label>
                 <input class="input input-bordered w-full max-w-xs" type="text" id="novelName" v-model="novelName" />
@@ -24,6 +24,14 @@
                 <label class="label label-text" for="rating">Rating</label>
                 <input class="input input-bordered w-full max-w-xs" type="text" id="rating" v-model="rating" />
             </div>
+            <div>
+                <label class="label label-text" for="rating">Sypnosis</label>
+                <textarea class="textarea textarea-bordered textarea-lg w-full max-w-xs" type="text" rows="4" cols="20" id="sypnosis" v-model="sypnosis"></textarea>
+            </div>
+            <div>
+                <label class="label label-text" for="backgroundImg">Image</label>
+                <input class="file-input file-input-bordered file-input-sm w-full max-w-xs" type="file" id="backgroundImg" name="backgroundImg" @change="handleFileInput($event)" />
+            </div>
             <button class="btn btn-primary my-4" type="submit">Submit</button>
         </form>
     </div>
@@ -39,15 +47,23 @@ const novelName = ref('');
 const novelAuthor = ref('');
 const genre = ref('');
 const rating = ref('');
+const sypnosis = ref('');
+const backgroundImg = ref({});
 const toastBool = ref();
 
 const { addNovel } = useNovel();
 
+const handleFileInput = (event) => {
+    const {files, name} = event.target;
+    console.log("files",files);
+    console.log("name",name);
+    backgroundImg.value = files[0];
+}
+
 const handleSubmit = async () => {
     const genreArray = genre.value.split(',').map(genre => genre.trim());
-    console.log("genre array",genreArray);
     try {
-        await addNovel(novelName.value, novelAuthor.value, genreArray, rating.value);
+        await addNovel(novelName.value, novelAuthor.value, genreArray, rating.value, sypnosis.value, backgroundImg.value);
         toastBool.value = true;
         setTimeout(()=> toastBool.value = null, 5000)
     } catch (error) {
