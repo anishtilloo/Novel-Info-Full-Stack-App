@@ -3,8 +3,22 @@ import Home from "../views/Home.vue";
 import Listing from "../views/Listing.vue";
 import AddNovel from "../views/AddNovel.vue";
 import ViewNovel from "../views/ViewNovel.vue";
+import Register from "../views/auth/Register.vue";
+import Login from "../views/auth/Login.vue";
 
 const routes = [
+  {
+    path: '/auth/register',
+    name: 'Register',
+    component: Register,
+    children: []
+  },
+  {
+    path: '/auth/login',
+    name: 'Login',
+    component: Login,
+    children: []
+  },
   {
     path: '/',
     name: 'Home',
@@ -12,13 +26,13 @@ const routes = [
     children: []
   },
   {
-    path: '/listing',
+    path: '/novel/listing',
     name: 'Listing',
     component: Listing,
     children: []
   },
   {
-    path: '/addnovel',
+    path: '/novel/addnovel',
     name: 'AddNovel',
     component: AddNovel
   },

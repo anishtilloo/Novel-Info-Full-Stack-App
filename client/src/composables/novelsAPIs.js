@@ -6,11 +6,15 @@ export default function useNovel() {
     const error = ref(null);
     let novelByIdData = reactive({});
 
-    const getAllNovels = async (limit, page) => {
+    const getAllNovels = async (limit=10, page=1) => {
         novelData.value = [];
         error.value = null;
         try {
-            const getNovelResult = await axios(`http://localhost:4000/api/allnovel?limit=${limit}&page=${page}`)
+            const getNovelResult = await axios.get(`/api/novel/allnovel?limit=${limit}&page=${page}`, {
+                headers: {
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzVlYmEwZjNlMzg4ODQwYWRmMjQxYmUiLCJpYXQiOjE3MzQyNzc0MTAsImV4cCI6MTczNDI4MTAxMH0.9xa7ygE8QW8yYGLZ13Kwczwln7EMmnsxALFIyCUWpNg`
+                }
+            })
             console.log(getNovelResult);
             novelData.value = getNovelResult.data.result;
             return novelData.value;
@@ -23,7 +27,11 @@ export default function useNovel() {
 
     const getNovelById = async (id) => {
         try {
-            let getNovelById = await axios(`http://localhost:4000/api/novel/${id}`)
+            let getNovelById = await axios(`/api/novel/novel/${id}`,  {
+                headers: {
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzVlYmEwZjNlMzg4ODQwYWRmMjQxYmUiLCJpYXQiOjE3MzQyNzc0MTAsImV4cCI6MTczNDI4MTAxMH0.9xa7ygE8QW8yYGLZ13Kwczwln7EMmnsxALFIyCUWpNg`
+                }
+            })
             novelByIdData = getNovelById.data.result;
             return novelByIdData;
         } catch (error) {
@@ -33,7 +41,7 @@ export default function useNovel() {
         }
     }
 
-    const addNovelsUrl = "http://localhost:4000/api/add-novel";
+    const addNovelsUrl = "/novel/add-novel";
 
     const addNovel = async (novelName, novelAuthor, genre, rating, sypnosis, backgroundImg) => {
         const formData = new FormData();
