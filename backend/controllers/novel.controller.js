@@ -17,6 +17,9 @@ export const AddNovel = async (req, res) => {
         if(req.file) {
             insertNovel.backgroundImg = req.file.path
         }
+        else if (req.body.backgroundImg) {
+            insertNovel.backgroundImg = req.body.backgroundImg
+        }
         console.log(insertNovel);
       try {
         const result = await insertNovel.save();
@@ -38,8 +41,8 @@ export const getNovelBasedOnName = async (req, res) => {
 
     try {
         const result = await NovelModel.find(getNovel);
-        console.log("Recived Novel SUccessfully");
-        res.status(200).json({ success: true, message: "Recived Novel SUccessfully", result });
+        console.log("Received Novel SUccessfully");
+        res.status(200).json({ success: true, message: "Received Novel SUccessfully", result });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -54,8 +57,8 @@ export const getNovelBasedOnId = async (req, res) => {
 
     try {
         const result = await NovelModel.findById(id);
-        console.log("Recived Novel Successfully");
-        res.status(200).json({ success: true, message: "Recived Novel SUccessfully", result });
+        console.log("Received Novel Successfully");
+        res.status(200).json({ success: true, message: "Received Novel Successfully", result });
     } catch (error) {
         console.log(error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -63,10 +66,10 @@ export const getNovelBasedOnId = async (req, res) => {
 }
 export const getAllNovel = async (req, res) => {  
     try {
-        let {result, nextPage, previousPage} = res.pagenation
+        let {result, nextPage, previousPage} = res.pagination
         if (result) {
-            console.log("Recieved Novels Successfully");
-            res.status(200).json({ success: true, message: "Recieved Novels Successfully", nextPage, previousPage, result });
+            console.log("Received Novels Successfully");
+            res.status(200).json({ success: true, message: "Received Novels Successfully", nextPage, previousPage, result });
         } else {
             console.log("There are no novels in the DB");
             res.status(200).json({ success: true, message: "DB is Empty", result });

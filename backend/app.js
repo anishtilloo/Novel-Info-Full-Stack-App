@@ -30,7 +30,7 @@ connectDB(DATABASE_URL);
 app.use(express.json());
 
 // Load Routes
-app.use("/api", NovelRoute);
+app.use("/api/novel", NovelRoute);
 app.use("/api", SendEmails);
 // Define authentication routes
 app.use('/api/auth', authRoutes);

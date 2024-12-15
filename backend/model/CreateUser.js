@@ -58,21 +58,20 @@ const CreateUserSchema = new mongoose.Schema({
 
 
 // hash the password before saving
-CreateUserSchema.pre('save', async (req, res, next) => {
-    const user = req.body;
-    if (!user.isModified('password')) {
-        return next();
-    }
-    
-    try {
-        const salt = await bcrypt.genSalt();
-        user.password = await bcrypt.hash(user.password, salt);
-        next();
-    } catch (error) {
-        console.log("Error occured while hashing ", error);
-        return next(error);
-    }
-})
+// CreateUserSchema.pre('save', async (next) => {
+//     console.log('req.body', this._reqBody);
+//     try {
+//         if (this.isNew) {
+//             const salt = await bcrypt.genSalt(10)
+//             const hashedPassword = await bcrypt.hash(this.password, salt)
+//             this.password = hashedPassword
+//         }
+//         next();
+//     } catch (error) {
+//         console.log("Error occurred while hashing ", error);
+//         return next(error);
+//     }
+// })
 
 
 // // Compare the given password with the hashed password in the database

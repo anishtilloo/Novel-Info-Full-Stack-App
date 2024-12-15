@@ -21,7 +21,7 @@ export default function pagenation(model) {
         }    
         try {
             result.result = await model.find().limit(limitValue).skip(startIndex).exec();
-            res.pagenation = result
+            res.pagination = result
             next();
         } catch (e) {
             res.status(500).json({ message: e.message });

@@ -6,9 +6,24 @@ import CreateUserModel from '../model/CreateUser.js';
 export const register = async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const registerdUser = { username, email, password: hashedPassword };
-    const user = new CreateUserModel(registerdUser);
+    if (!username || !email || !password) {
+      res.status(400).json({
+        success: false,
+        message: 'Registration unsuccessful',
+        data: null,
+        error: 'Please fill all the mandatory fields',
+      })
+    }
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    let registeredUser = { username, email, password: hashedPassword };
+    if (req.body.role) {
+      registeredUser = {
+        ...registeredUser,
+        role: req.body.role,
+      }
+    }
+    const user = new CreateUserModel(registeredUser);
     const result = await user.save();
     res.status(201).json({ 
         success: true,
@@ -17,7 +32,7 @@ export const register = async (req, res, next) => {
         error: null
     });
   } catch (error) {
-    console.log("Something went wrong");
+    console.log("Something went wrong", error);
     res.status(500).json({ 
         success: true,
         message: 'Registration unsuccessful',
