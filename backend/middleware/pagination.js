@@ -1,4 +1,4 @@
-export default function pagenation(model) {
+export default function pagination(model) {
     return async (req, res, next) => {
         const limitValue = parseInt(req.query.limit);
         const pageValue = parseInt(req.query.page);

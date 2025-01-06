@@ -54,7 +54,7 @@ export const login = async (req, res, next) => {
             success: false,
             message: 'User not found', 
             data: null,
-            error: error
+            error: 'error!! user not found'
         });
     }
 
@@ -65,12 +65,19 @@ export const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-      expiresIn: '1 hour'
+      expiresIn: '1 day'
     });
-    res.status(201).json({ 
+    
+    res.status(200).json({ 
         success: true,
         message: 'Token generated', 
-        data: null,
+        data: {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          createdAt: user.createdAt
+        },
         token: token
     });
   } catch (error) {
