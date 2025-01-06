@@ -1,10 +1,20 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import useNovel from "../composables/novelsAPIs";
+import { getAllNovels } from '../api/novel/get-all.novel.js'
 import NovelViewCard from "../components/Cards/NovelViewCard.vue";
-const { novelData, error, getAllNovels } = useNovel();
+// const { novelData, error, getAllNovels } = useNovel();
+const novelData = ref([]);
 
-onMounted(getAllNovels);
+onMounted(async() => {
+  try {
+    const response  = await getAllNovels(localStorage.getItem('auth_token'), { limit: 10, page: 1 });
+    novelData.value = response.data.result;
+  } catch (error) {
+    console.error('error', error);
+    novelData.value = null;
+  }
+});
 </script>
 
 <template>
@@ -29,7 +39,7 @@ onMounted(getAllNovels);
     <div v-else class="flex flex-wrap px-4 py-8">
       <h1>NO DATA Available</h1>
     </div>
-    <div>
+    <!-- <div>
       <select name="pageLimit" id="limit">
         <option value="">10</option>
         <option value="">50</option>
@@ -45,6 +55,6 @@ onMounted(getAllNovels);
         next
       </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>

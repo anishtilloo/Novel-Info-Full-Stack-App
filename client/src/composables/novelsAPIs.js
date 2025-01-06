@@ -6,7 +6,7 @@ export default function useNovel() {
     const error = ref(null);
     let novelByIdData = reactive({});
 
-    const getAllNovels = async (limit=10, page=1) => {
+    async function getAllNovels(limit=10, page=1) {
         novelData.value = [];
         error.value = null;
         try {

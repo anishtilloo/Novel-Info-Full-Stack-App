@@ -1,9 +1,17 @@
 
 <script setup>
+import { storeToRefs } from 'pinia';
+
+import { useAuthStore } from "./stores/auth.store.js";
 import Navbar from "./components/Navbar/Navbar.vue";
+
+const authStore = useAuthStore();
+const { isAuthenticated } = storeToRefs(authStore)
 </script>
 <template>
-  <Navbar />
+  <template v-if="isAuthenticated">
+    <Navbar />
+  </template>
   <router-view/>
 </template>
 

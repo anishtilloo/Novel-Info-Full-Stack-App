@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar bg-secondary">
+    <div class="navbar bg-primary">
         <div class="flex-1">
             <span class="btn btn-ghost text-xl">
                 <router-link to="/">
