@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import useNovel from "../composables/novelsAPIs";
+// import useNovel from "../composables/novelsAPIs";
 import { getAllNovels } from '../api/novel/get-all.novel.js'
 import NovelViewCard from "../components/Cards/NovelViewCard.vue";
 // const { novelData, error, getAllNovels } = useNovel();

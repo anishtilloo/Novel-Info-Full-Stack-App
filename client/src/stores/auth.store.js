@@ -10,8 +10,15 @@ export const useAuthStore = defineStore('authStore', () => {
         isAuthenticated.value = isAuth;
     }
 
+    function logout() {
+        alert('Are you sure you want to logout?')
+        isAuthenticated.value = false;
+        localStorage.removeItem('auth_token');
+    }
+
     return {
         isAuthenticated,
+        logout,
         getIsAuthenticated,
         setIsAuthenticated
     }

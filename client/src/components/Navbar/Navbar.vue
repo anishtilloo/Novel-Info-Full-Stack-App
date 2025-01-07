@@ -1,3 +1,10 @@
+<script setup>
+import { useAuthStore } from "../../stores/auth.store.js";
+
+const authStore = useAuthStore();
+const { logout } = authStore;
+</script>
+
 <template>
     <div class="navbar bg-primary">
         <div class="flex-1">
@@ -37,6 +44,13 @@
                             </li>
                         </ul>
                     </details>
+                </li>
+                <li>
+                    <a>
+                        <router-link to="/" @click="logout()">
+                            Logout
+                        </router-link>
+                    </a>
                 </li>
             </ul>
         </div>
